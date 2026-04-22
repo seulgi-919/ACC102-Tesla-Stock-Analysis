@@ -1,0 +1,27 @@
+# ACC102 Mini Assignment - Tesla Stock Data Analysis# Track 2: GitHub Data Analysis Project
+import pandas as pdimport matplotlib.pyplot as pltimport yfinance as yf
+# ----------------------# 1. Problem Definition# ----------------------print("Analytical Purpose: Analyze Tesla stock price trend, volume and volatility")print("Target Users: Individual investors & finance students")
+# ----------------------# 2. Load Data# ----------------------
+data = yf.download("TSLA", start="2022-01-01", end="2026-04-20")print("Data downloaded successfully")
+# ----------------------# 3. Data Cleaning (Pandas)# ----------------------
+data = data.dropna()
+data = data.drop_duplicates()
+data['Daily_Return'] = data['Close'].pct_change()
+print("Missing values after cleaning:\n", data.isnull().sum())
+# ----------------------# 4. Descriptive Analysis# ----------------------print("\nDescriptive Statistics:")print(data[['Close', 'Volume', 'Daily_Return']].describe())
+# ----------------------# 5. Visualization# ----------------------
+plt.figure(figsize=(10,4))
+plt.plot(data['Close'], label='TSLA Close Price')
+plt.title('Tesla Stock Price 2022-2026')
+plt.xlabel('Date')
+plt.ylabel('USD')
+plt.legend()
+plt.show()
+
+plt.figure(figsize=(10,4))
+plt.plot(data['Daily_Return'], color='red', label='Daily Return')
+plt.axhline(0, linestyle='--', color='black')
+plt.title('Tesla Daily Return Volatility')
+plt.legend()
+plt.show()
+
